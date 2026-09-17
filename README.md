@@ -4,31 +4,37 @@ A modern, sleek dark theme for [SmokePing](https://oss.oetiker.ch/smokeping/) 2.
 
 - Dark UI (sidebar, navbar, panels, footer) with a blue accent, rounded corners
   and subtle shadows.
-- Dark graphs: the smoke grayscale is inverted so the dense center of the
-  latency distribution renders near-white on a dark slate canvas, one step
-  lighter than the surrounding panel so the plot area stays distinct and the
-  smoke keeps its contrast. Loss backgrounds become dark tints instead of
-  bright pastels, and the grid is a subtle translucent white.
+- Dark graphs: the smoke is drawn as translucent, accent-tinted bands that
+  ramp from near-invisible at the edges to a soft core at the median, so the
+  latency distribution reads as smoke rather than flat grey blocks and the
+  median line stays the brightest thing on the plot. The median / loss
+  palette is re-tuned so every loss level stays visible on a dark canvas, loss
+  backgrounds become subtle tints of the canvas colour instead of bright
+  pastels, the grid is a faint solid white, and the fonts are larger and
+  anti-aliased.
 - No data is touched — everything is presentation-only. The RRD files are
   never modified.
 
 ## How it works
 
 SmokePing 2.9 exposes `graphborders`, `colorbackground` and `colortext` in the
-Presentation config, but the smoke shading, median base line, zero-rule and
-grid colors are hardcoded for a light canvas. A small init script
-(`custom-cont-init.d/10-dark-graphs.sh`) patches those at container start:
+Presentation config, but the smoke shading, loss palette, median base line,
+zero-rule, grid colors and fonts are hardcoded for a light canvas. A small init
+script (`custom-cont-init.d/10-dark-graphs.sh`) patches those at container
+start:
 
 | Patch | Effect |
 | --- | --- |
-| Invert `smokecol` grayscale in `Smokeping.pm` | smoke is bright at the median, dark at the edges |
-| `LINE1:median#202020` → `#e6e9ef` | median base line visible on dark |
-| `HRULE:0#000000` → `#aab4c0` | baseline visible on dark |
-| Darken (not brighten) loss/uptime background tints | subtle dark loss bands instead of bright pastels |
-| Add `GRID`/`MGRID`/`AXIS`/`ARROW` colors in `Graphs.pm` | subtle light grid and axes |
+| `smokecol` in `Smokeping.pm` draws one translucent accent-tinted colour per band | the nested bands stack into a gradient from 6% coverage at the edges to 60% at the median, for any ping count, so 5-ping and 20-ping probes both look right |
+| Loss palette (`#26ff00`, `#00b8ff`, `#0059ff`, …) → bright evenly spaced hues | median line and loss legend stay readable; the stock blues and purples vanish on dark |
+| Loss background tints blend the loss colour into `colorbackground` | subtle tinted loss columns instead of bright pastels |
+| `LINE1:median#202020` → `#dfe5ee`, `HRULE:0#000000` → `#8b96a5` | base line and zero-rule visible on dark |
+| Add `GRID`/`MGRID`/`AXIS`/`ARROW` colors, `--grid-dash 1:0` and `--font` sizes in `Graphs.pm` | faint solid grid, muted axes, larger anti-aliased title / axis / legend text |
+| `RRDLeft` / `RRDRight` in `smokeping.js` | drag-to-zoom still maps pixels to time with the larger axis font |
 
 The script is idempotent and re-applies automatically after image updates or
-container recreation.
+container recreation. `uninstall-dark-graphs.sh` reverses every patch on a
+running container or native install.
 
 ## Files
 
@@ -38,6 +44,7 @@ container recreation.
 | `css/smokeping-dark.css` | The stylesheet |
 | `apache/theme-alias.conf` | Apache alias so the CSS is served from a persistent path |
 | `custom-cont-init.d/10-dark-graphs.sh` | Container init script that patches SmokePing for dark graphs |
+| `uninstall-dark-graphs.sh` | Reverses the graph patches (running container or native install) |
 
 ## Install (linuxserver/smokeping docker image)
 
@@ -76,7 +83,8 @@ and image updates.
    ```
 
 4. In `config/Presentation`, point at the new template and set the dark graph
-   colors (SmokePing 2.9+):
+   colors (SmokePing 2.9+). The background matches the panel surface so the
+   graph sits flush inside its card:
 
    ```ini
    *** Presentation ***
@@ -84,7 +92,7 @@ and image updates.
    template = /config/theme/basepage.html
    charset  = utf-8
    graphborders = no
-   colorbackground = 28313f
+   colorbackground = 1a212b
    colortext = dfe5ee
    ```
 
@@ -102,6 +110,14 @@ and image updates.
    docker compose up -d
    docker exec smokeping sh -c \
      'find /var/cache/smokeping -name "*.png" -not -name smokeping.png -not -name rrdtool.png -delete'
+   ```
+
+   When upgrading the theme to a newer `10-dark-graphs.sh`, force a fresh
+   container so the script patches pristine files rather than skipping ones it
+   already marked as patched:
+
+   ```sh
+   docker compose up -d --force-recreate
    ```
 
 ## Light-graph variant
@@ -123,4 +139,5 @@ Drop `smokeping-dark.css` into your SmokePing `htdocs/css/` directory, adjust
 the `<link rel="stylesheet" ...>` path in `basepage.html` accordingly, set
 `template = /path/to/basepage.html` in the Presentation section, add the
 Presentation settings shown above, and apply `10-dark-graphs.sh` once against
-your installed `Smokeping.pm` / `Graphs.pm` (re-run after upgrades).
+your installed `Smokeping.pm` / `Graphs.pm` / `smokeping.js` (adjust the paths
+at the top of the script if they differ; re-run after upgrades).

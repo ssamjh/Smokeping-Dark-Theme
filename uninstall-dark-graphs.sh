@@ -21,23 +21,54 @@
 
 SP=/usr/share/smokeping/Smokeping.pm
 GR=/usr/share/smokeping/Smokeping/Graphs.pm
+JS=/usr/share/webapps/smokeping/js/smokeping.js
 
 if grep -q 'dark-theme-patch' "$SP"; then
-    sed -i \
-        -e 's|245 - int(155/$half \* ($half-$ibot))|int(190/$half * ($half-$ibot))+50|' \
-        -e 's|LINE1:median#e6e9ef|LINE1:median#202020|' \
-        -e 's|HRULE:0#aab4c0|HRULE:0#000000|' \
-        -e 's|$hsl\[2\] = $hsl\[2\] \* (1/3);|$hsl[2] = (1 - $hsl[2]) * (2/3) + $hsl[2];|' \
-        -e '/# dark-theme-patch applied/d' \
-        "$SP"
+    perl -0pi -e '
+        # smoke: translucent bands -> stock grayscale rings
+        s{my \$n = int\(\$count / 2\);\n\s*my \$cnow  = .*\n\s*my \$cprev = .*\n\s*my \$alpha = sprintf\("%02x", 255 \* \(1 - \(1 - \$cnow\) / \(1 - \$cprev\)\)\);}{my \$color = int(190/\$half * (\$half-\$ibot))+50;};
+        s{"STACK:smoke\$\{ibot\}#9ecbff\$alpha"}{"STACK:smoke\${ibot}#".(sprintf("%02x",\$color) x 3)};
+
+        # loss palette -> stock colours
+        s{\x27#4ade80\x27}{\x27#26ff00\x27};
+        s{\x27#38bdf8\x27}{\x27#00b8ff\x27};
+        s{\x27#60a5fa\x27}{\x27#0059ff\x27};
+        s{\x27#a78bfa\x27}{\x27#7e00ff\x27};
+        s{\x27#e879f9\x27}{\x27#ff00ff\x27};
+        s{\x27#fb923c\x27}{\x27#ff5500\x27};
+        s{\x27#f87171\x27}{\x27#ff0000\x27};
+        s{\x27#ff3b3b\x27}{\x27#a00000\x27};
+
+        # loss background: canvas blend -> stock lighten-towards-white
+        s{my \@bg = Smokeping::Colorspace::web_to_rgb\(\$cfg->\{Presentation\}\{colorbackground\} \|\| "000000"\);\n(\s*)\@rgb = map \{ \$rgb\[\$_\] \* 0\.18 \+ \$bg\[\$_\] \* 0\.82 \} 0\.\.2;\n}{my \@hsl = Smokeping::Colorspace::rgb_to_hsl(\@rgb);\n$1\$hsl[2] = (1 - \$hsl[2]) * (2/3) + \$hsl[2];\n$1\@rgb = Smokeping::Colorspace::hsl_to_rgb(\@hsl);\n};
+
+        # lines
+        s{LINE1:median#dfe5ee}{LINE1:median#202020};
+        s{HRULE:0#8b96a5}{HRULE:0#000000};
+
+        s{# dark-theme-patch applied\n}{};
+    ' "$SP"
     echo "[uninstall-dark-graphs] reverted $SP"
 else
     echo "[uninstall-dark-graphs] $SP not patched, skipping"
 fi
 
-if grep -q 'GRID#ffffff22' "$GR"; then
-    sed -i '/GRID#ffffff22/d' "$GR"
+if grep -q 'dark-theme-patch' "$GR"; then
+    perl -0pi -e '
+        s{[ \t]*# dark-theme-patch: grid, axis and fonts\n[ \t]*push\(\@colorList,\n(?:[ \t]+.*\n)*?[ \t]*\);\n}{};
+        s{# dark-theme-patch applied\n}{};
+    ' "$GR"
     echo "[uninstall-dark-graphs] reverted $GR"
 else
     echo "[uninstall-dark-graphs] $GR not patched, skipping"
+fi
+
+if [ -f "$JS" ] && grep -q 'dark-theme-patch' "$JS"; then
+    sed -i \
+        -e 's|var RRDLeft  = 75; // dark-theme-patch|var RRDLeft  = 67;|' \
+        -e 's|var RRDRight = 30;|var RRDRight = 26;|' \
+        "$JS"
+    echo "[uninstall-dark-graphs] reverted $JS"
+else
+    echo "[uninstall-dark-graphs] $JS not patched, skipping"
 fi
