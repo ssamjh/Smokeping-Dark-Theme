@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141a21'/%3E%3Cpath d='M5 21l5-6 4 8 5-13 4 7h4' stroke='%2358b7ff' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SmokePing Latency Page for <##title##></title>
+    <link rel="stylesheet" type="text/css" href="css/smokeping-print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="theme/smokeping-dark.css" media="screen">
+    <meta name="color-scheme" content="dark">
+    <script>
+    	window.options = {
+	    step: <##step##>
+	}
+    </script>
+</head>
+<body id="body">
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <##smokelogo##>
+        </div>
+    </div>
+
+    <div class="sidebar-menu">
+	<ul class="menu">
+	<li class="menuitem"><a class="menulink" href="/"><B>HOME</B></a></li></ul>
+        <##menu##>
+        <div class="logo">
+            <##rrdlogo##>
+        </div>
+    </div>
+</div>
+
+<div class="navbar">
+    <div class="navbar-menu"><a id="menu-button" href="#">Toggle Menu</a></div>
+    <div class="navbar-refresh"><a id="refresh-button" href="#">Auto Refresh</a></div>
+    <div class="navbar-user"><div class="icon-person"></div><##authuser##></div>
+</div>
+
+<div class="main">
+    <h1><##title##></h1>
+    <h2><##remark##></h2>
+
+    <div class="overview">
+        <##overview##>
+    </div>
+
+    <div class="details">
+        <##body##>
+    </div>
+</div>
+<hr>
+<div class="footer">
+    <p class="footer-right"><small>Running on <##smokeping##> by <##author##></small></p>
+    <p><small>Maintained by <a href="mailto:<##contact##>"><##owner##></a></small></p>
+</div>
+
+<script src="js/prototype.js" type="text/javascript"></script>
+<script src="js/scriptaculous/scriptaculous.js?load=builder,effects,dragdrop" type="text/javascript"></script>
+<script src="js//cropper/cropper.js" type="text/javascript"></script>
+<script src="js/smokeping.js" type="text/javascript"></script>
+
+</body>
+</html>

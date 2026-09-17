@@ -1,0 +1,449 @@
+/* ==========================================================================
+   SmokePing Dark — a modern dark theme for SmokePing 2.x
+   https://github.com/ssamjh/Smokeping-Dark-Theme
+   ========================================================================== */
+
+:root {
+	--bg: #0e1217;
+	--surface: #141a21;
+	--surface-2: #1a212b;
+	--border: #29323e;
+	--border-soft: #202834;
+	--text: #dfe5ee;
+	--text-muted: #8b96a5;
+	--accent: #58b7ff;
+	--accent-soft: rgba(88, 183, 255, 0.12);
+	--graph-bg: #e9edf3; /* matches colorbackground in the Presentation config */
+	--radius: 10px;
+	--sidebar-width: 250px;
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #333e4d transparent;
+}
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+::-webkit-scrollbar-thumb {
+	background: #333e4d;
+	border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+::selection {
+	background: var(--accent-soft);
+	color: var(--text);
+}
+
+body {
+	background: var(--bg);
+	color: var(--text);
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		"Helvetica Neue", Arial, sans-serif;
+	font-size: 13px;
+	margin: 0;
+	display: inline-block;
+	width: 100%;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1 {
+	font-size: 26px;
+	line-height: 32px;
+	font-weight: 600;
+	letter-spacing: -0.02em;
+	margin: 12px 5px 4px;
+	color: var(--text);
+}
+h2 {
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: 400;
+	margin: 0 5px 10px;
+	color: var(--text-muted);
+}
+small {
+	font-size: 11px;
+}
+hr {
+	display: none;
+}
+img {
+	border: 0;
+}
+a {
+	color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar
+   -------------------------------------------------------------------------- */
+
+.sidebar {
+	background: var(--surface);
+	border-right: 1px solid var(--border-soft);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: var(--sidebar-width);
+	height: 100%;
+	color: var(--text-muted);
+	z-index: 10;
+}
+
+.sidebar-header {
+	border-bottom: 1px solid var(--border-soft);
+	height: 50px;
+	position: relative;
+	padding: 10px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+}
+.sidebar-header .logo {
+	margin: 0;
+	display: inline-block;
+	padding: 0 5px;
+}
+
+.sidebar-menu {
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: absolute;
+	top: 51px;
+	bottom: 0;
+	width: calc(var(--sidebar-width) - 1px);
+	padding-top: 8px;
+	box-sizing: border-box;
+}
+
+.sidebar-menu img {
+	margin: 10px 0 14px 15px;
+	opacity: 0.6;
+	transition: opacity 0.2s ease;
+}
+.sidebar-menu img:hover {
+	opacity: 1;
+}
+.sidebar-menu br {
+	display: none;
+}
+
+.sidebar .filter-label,
+.sidebar .hierarchy-label {
+	display: none;
+}
+.sidebar .filter-text,
+.sidebar .hierarchy-popup {
+	margin: 10px 12px;
+}
+.sidebar .hierarchy-popup select {
+	width: 100%;
+	background: var(--bg);
+	color: var(--text);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	padding: 6px;
+}
+.sidebar .filter-text input {
+	width: 100%;
+	box-sizing: border-box;
+	border: 1px solid var(--border);
+	padding: 7px 10px;
+	border-radius: 6px;
+	background-color: var(--bg);
+	color: var(--text);
+	font-size: 12px;
+	outline: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.sidebar .filter-text input::placeholder {
+	color: var(--text-muted);
+}
+.sidebar .filter-text input:focus {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.sidebar ul.menu {
+	margin: 0;
+	padding: 0 8px 10px;
+	list-style: none;
+	display: block;
+}
+
+.sidebar ul.menu li {
+	margin: 2px 0;
+	border: 0;
+	border-radius: 7px;
+	position: relative;
+	transition: background 0.15s ease;
+}
+.sidebar ul.menu li.menuopen,
+.sidebar ul.menu li:hover,
+.sidebar ul.menu li.menuactive {
+	border: 0;
+	background: rgba(255, 255, 255, 0.05);
+	color: var(--text);
+}
+.sidebar ul.menu li.menuactive {
+	background: var(--accent-soft);
+}
+.sidebar ul.menu li a {
+	color: #b6c0cd;
+	line-height: 2.3em;
+	display: block;
+	padding-left: 10px;
+	text-decoration: none;
+	border-radius: 7px;
+	transition: color 0.15s ease;
+}
+.sidebar ul.menu li a b {
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	font-size: 11px;
+}
+.sidebar ul.menu li:hover > a {
+	color: var(--text);
+}
+.sidebar ul.menu li a.menulinkactive {
+	color: var(--accent);
+	font-weight: 600;
+}
+.sidebar ul.menu li ul {
+	background: rgba(0, 0, 0, 0.25);
+	border-radius: 7px;
+	padding: 4px;
+	margin: 0 0 4px 0;
+}
+
+/* --------------------------------------------------------------------------
+   Top navbar
+   -------------------------------------------------------------------------- */
+
+.navbar {
+	height: 50px;
+	border-bottom: 1px solid var(--border-soft);
+	background: rgba(14, 18, 23, 0.85);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-sizing: border-box;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: var(--sidebar-width);
+	box-shadow: none;
+	text-shadow: none;
+	z-index: 9;
+}
+
+.navbar .navbar-menu {
+	border-right: 1px solid var(--border-soft);
+	height: 50px;
+	display: inline-block;
+}
+.navbar .navbar-refresh {
+	border-right: 0;
+	height: 34px;
+	display: inline-block;
+	position: absolute;
+	top: 8px;
+	left: 62px;
+	padding: 0;
+	line-height: 34px;
+	font-size: 13px;
+	font-weight: 500;
+	cursor: pointer;
+}
+.navbar .navbar-refresh a {
+	color: var(--text-muted);
+	text-decoration: none;
+	display: inline-block;
+	padding: 0 14px;
+	border: 1px solid var(--border);
+	border-radius: 17px;
+	transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.navbar .navbar-refresh a:hover {
+	color: var(--text);
+	border-color: var(--accent);
+	background: var(--accent-soft);
+}
+.navbar .navbar-user {
+	border-left: 1px solid var(--border-soft);
+	height: 50px;
+	display: inline-block;
+	right: 0;
+	position: absolute;
+	padding: 0 16px;
+	line-height: 50px;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--text-muted);
+}
+.navbar .navbar-user .icon-person {
+	background: no-repeat center
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238b96a5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E");
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	vertical-align: middle;
+	padding-right: 8px;
+	opacity: 0.9;
+}
+a#menu-button {
+	background: no-repeat center
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23dfe5ee' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 6h16M4 12h16M4 18h16'/%3E%3C/svg%3E");
+	text-indent: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	display: block;
+	opacity: 0.6;
+	height: 50px;
+	width: 50px;
+	transition: opacity 0.15s ease;
+}
+a#menu-button:hover {
+	opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Main content
+   -------------------------------------------------------------------------- */
+
+.main {
+	padding-left: var(--sidebar-width);
+	margin: 10px 14px;
+	padding-top: 50px;
+	display: inline-block;
+}
+
+.main .panel,
+.main .panel-no-border {
+	margin: 6px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.main .panel {
+	border: 1px solid var(--border-soft);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+	background: var(--surface-2);
+	border-radius: var(--radius);
+	overflow: hidden;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.main .panel:hover {
+	border-color: var(--border);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.main .panel-heading {
+	background: transparent;
+	border-bottom: 1px solid var(--border-soft);
+	box-shadow: none;
+}
+
+.main .panel-heading h2,
+.main .panel-heading-no-border h2 {
+	margin: 0;
+	padding-left: 12px;
+	line-height: 34px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--text);
+}
+
+.main .panel-body {
+	padding: 8px;
+	line-height: 0; /* removes descender gap under the graph image */
+}
+.main .panel-body a {
+	line-height: 0;
+}
+.main .panel-body img {
+	border-radius: 6px;
+	display: inline-block;
+}
+
+/* keep normal line-height for panels that contain text rather than graphs */
+.main .panel-body form,
+.main .panel-body p,
+.main .panel-body table {
+	line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.footer {
+	border-top: 1px solid var(--border-soft);
+	padding-left: var(--sidebar-width);
+}
+
+.footer p {
+	display: inline-block;
+	margin: 8px 14px;
+}
+
+.footer p.footer-right {
+	float: right;
+}
+
+.footer,
+.footer a {
+	color: var(--text-muted);
+	text-decoration: none;
+}
+.footer a:hover {
+	color: var(--accent);
+	text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar toggle + responsive (same behaviour as stock theme)
+   -------------------------------------------------------------------------- */
+
+.sidebar-hidden .sidebar {
+	left: calc(-1 * var(--sidebar-width)) !important;
+}
+
+.sidebar-hidden .main,
+.sidebar-hidden .footer {
+	padding-left: 0 !important;
+}
+.sidebar-hidden .navbar {
+	left: 0 !important;
+}
+
+@media (max-width: 900px) {
+	.sidebar,
+	.navbar {
+		transition: left 0.4s ease;
+	}
+	.sidebar {
+		left: calc(-1 * var(--sidebar-width));
+	}
+	.navbar {
+		left: 0;
+	}
+	.main,
+	.footer {
+		padding-left: 0;
+	}
+	.sidebar-visible .sidebar {
+		left: 0 !important;
+	}
+	.sidebar-visible .navbar {
+		left: var(--sidebar-width) !important;
+	}
+}
+
+.img-responsive {
+	max-width: 100%;
+	height: auto;
+}
