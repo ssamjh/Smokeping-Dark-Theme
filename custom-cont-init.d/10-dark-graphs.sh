@@ -10,7 +10,7 @@
 #
 # Pair this with these Presentation settings:
 #   graphborders = no
-#   colorbackground = 1a212b
+#   colorbackground = 28313f
 #   colortext = dfe5ee
 
 SP=/usr/share/smokeping/Smokeping.pm
@@ -18,7 +18,7 @@ GR=/usr/share/smokeping/Smokeping/Graphs.pm
 
 if ! grep -q 'dark-theme-patch' "$SP"; then
     sed -i \
-        -e 's|int(190/$half \* ($half-$ibot))+50|235 - int(175/$half * ($half-$ibot))|' \
+        -e 's|int(190/$half \* ($half-$ibot))+50|245 - int(155/$half * ($half-$ibot))|' \
         -e 's|LINE1:median#202020|LINE1:median#e6e9ef|' \
         -e 's|HRULE:0#000000|HRULE:0#aab4c0|' \
         -e 's|$hsl\[2\] = (1 - $hsl\[2\]) \* (2/3) + $hsl\[2\];|$hsl[2] = $hsl[2] * (1/3);|' \

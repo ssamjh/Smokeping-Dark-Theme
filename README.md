@@ -5,10 +5,10 @@ A modern, sleek dark theme for [SmokePing](https://oss.oetiker.ch/smokeping/) 2.
 - Dark UI (sidebar, navbar, panels, footer) with a blue accent, rounded corners
   and subtle shadows.
 - Dark graphs: the smoke grayscale is inverted so the dense center of the
-  latency distribution renders near-white on a dark canvas that matches the
-  panel color, making each graph blend seamlessly into its card. Loss
-  backgrounds become dark tints instead of bright pastels, and the grid is a
-  subtle translucent white.
+  latency distribution renders near-white on a dark slate canvas, one step
+  lighter than the surrounding panel so the plot area stays distinct and the
+  smoke keeps its contrast. Loss backgrounds become dark tints instead of
+  bright pastels, and the grid is a subtle translucent white.
 - No data is touched — everything is presentation-only. The RRD files are
   never modified.
 
@@ -84,7 +84,7 @@ and image updates.
    template = /config/theme/basepage.html
    charset  = utf-8
    graphborders = no
-   colorbackground = 1a212b
+   colorbackground = 28313f
    colortext = dfe5ee
    ```
 
