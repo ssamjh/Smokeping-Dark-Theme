@@ -22,7 +22,7 @@ This repository is a presentation-only dark theme for SmokePing 2.9 and newer. I
 
 - The target runtime is Linux with SmokePing 2.9+; the shell scripts require Bash and standard `grep`, `sed`, and Perl tooling, and normally need root permissions to edit SmokePing installation files.
 - The Docker workflow expects the theme files under `/config/theme` and the startup script mounted at `/custom-cont-init.d`. The Apache alias must appear before the broader `Alias /smokeping ...` rule.
-- The documented Presentation settings are `graphborders = no`, `colorbackground = d2dae4`, `+ overview width = 470`, `+ overview height = 50`, and `+ detail width = 600`; `colortext` is intentionally omitted. The overview width keeps two overview graphs on a row at desktop widths. CSS `--graph-bg` must remain in step with `colorbackground`.
+- The documented Presentation settings are `graphborders = no` and `colorbackground = c9c3b6`; `colortext` is intentionally omitted, and overview/detail dimensions remain at SmokePing's defaults. CSS `--graph-bg` must remain in step with `colorbackground`.
 - `basepage.html` expects the alias-backed `theme/smokeping-dark.css` path and SmokePing's existing `js/` assets. Do not replace its `<##...##>` tokens or script imports without checking SmokePing template compatibility.
 - Native installs must adjust the stylesheet link and the `GR` and `JS` paths at the top of `custom-cont-init.d/10-dark-graphs.sh` as described in `README.md`.
 
@@ -35,7 +35,7 @@ The startup patch carries the `dark-font-patch` marker in the graph font and zoo
 - Keep `uninstall-dark-graphs.sh` symmetric with the startup patch and safe on unpatched files. It must never be part of the startup path.
 - The patch regexes are coupled to SmokePing's installed source layout and current 2.9-era text. Treat upstream image/package upgrades as compatibility risks; do not broaden replacements casually.
 - Do not silently overwrite a user's unrelated SmokePing customizations. Inspect target files and use the documented clean-container workflow when a pristine baseline is required.
-- Preserve the stock-plus graph contract: stock graph colours and rendering, `colorbackground = d2dae4`, CSS `--graph-bg: #d2dae4`, plus only the documented DejaVu graph fonts and corresponding zoom margins. Screenshot and documentation examples should agree.
+- Preserve the stock-plus graph contract: stock graph colours and rendering, `colorbackground = c9c3b6`, CSS `--graph-bg: #c9c3b6`, plus only the documented DejaVu graph fonts and corresponding zoom margins. Screenshot and documentation examples should agree.
 - Avoid adding dependencies, generated files, or a build system unless the project requirements explicitly change.
 
 ## Editing guidance
@@ -53,7 +53,7 @@ There is no automated build, test suite, package manifest, or CI workflow in thi
 
 1. Run `git diff --check` and inspect `git diff` for unintended whitespace, generated files, or unrelated changes.
 2. On Linux or WSL, run `bash -n custom-cont-init.d/10-dark-graphs.sh uninstall-dark-graphs.sh`.
-3. Check that the template tokens, stylesheet path, alias path, Presentation settings (including overview/detail dimensions), patch markers, reverse replacements, and screenshot references agree across affected files.
+3. Check that the template tokens, stylesheet path, alias path, Presentation settings, patch markers, reverse replacements, and screenshot references agree across affected files.
 4. For runtime changes, test in a disposable SmokePing 2.9+ container or native install: apply the documented Presentation settings, mount the theme and optional font patch, verify the stock graph colours and font marker, clear only rendered graph PNGs, and verify the page, overview/detail graphs, responsive menu, and drag-to-zoom behaviour.
 5. Run the startup script twice to confirm idempotence, then exercise the documented removal helper. Confirm RRD history is unchanged.
 

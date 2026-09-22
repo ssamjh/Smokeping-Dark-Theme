@@ -13,7 +13,7 @@
 	--text-muted: #8b96a5;
 	--accent: #58b7ff;
 	--accent-soft: rgba(88, 183, 255, 0.12);
-	--graph-bg: #d2dae4; /* matches colorbackground in the Presentation config */
+	--graph-bg: #c9c3b6; /* matches colorbackground in the Presentation config */
 	--radius: 10px;
 	--sidebar-width: 250px;
 }

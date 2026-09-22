@@ -6,7 +6,7 @@ A presentation-only dark page theme for [SmokePing](https://oss.oetiker.ch/smoke
 
 - Dark sidebar, navbar, panels, graph containers, and footer.
 - SmokePing's stock graph colours, smoke, grid, axes, zero rule, and connector.
-- Presentation canvas `#d2dae4`, matching the stylesheet's `--graph-bg` value.
+- Presentation canvas `#c9c3b6`, matching the stylesheet's `--graph-bg` value.
 - Optional DejaVu graph fonts with matching drag-to-zoom margins.
 - Responsive layout, accessible links, print styles, and the existing SmokePing JavaScript assets.
 
@@ -28,18 +28,10 @@ Set these values in the `*** Presentation ***` section:
 
 ```ini
 graphborders = no
-colorbackground = d2dae4
-
-+ overview
-width = 470
-height = 50
-
-+ detail
-width = 600
-height = 200
+colorbackground = c9c3b6
 ```
 
-Leave `colortext` unset so SmokePing uses its stock graph text colour. The 470-pixel overview width keeps two overview graphs on a row at desktop widths; detail graphs remain 600 pixels wide. An overview median accent can be set separately with `median_color = 58b7ff` in the `+ overview` section.
+Leave `colortext` unset so SmokePing uses its stock graph text colour. Leave the overview and detail dimensions at SmokePing's defaults. An overview median accent can be set separately with `median_color = 58b7ff` in the `+ overview` section.
 
 ## Files
 
@@ -93,18 +85,10 @@ The container webroot is not persisted, so place the theme files in the config v
    template = /config/theme/basepage.html
    charset  = utf-8
    graphborders = no
-   colorbackground = d2dae4
-
-   + overview
-   width = 470
-   height = 50
-
-   + detail
-   width = 600
-   height = 200
+   colorbackground = c9c3b6
    ```
 
-   Leave `colortext` unset. The smaller overview width keeps two overview graphs on a row; detail graphs remain 600 pixels wide.
+   Leave `colortext` unset and leave the overview and detail dimensions at SmokePing's defaults.
 
 5. Recreate the container and clear only rendered graph images. This does not touch RRD history:
 
@@ -122,18 +106,10 @@ The container webroot is not persisted, so place the theme files in the config v
 
    ```ini
    graphborders = no
-   colorbackground = d2dae4
-
-   + overview
-   width = 470
-   height = 50
-
-   + detail
-   width = 600
-   height = 200
+   colorbackground = c9c3b6
    ```
 
-   Leave `colortext` unset. The smaller overview width keeps two overview graphs on a row; detail graphs remain 600 pixels wide.
+   Leave `colortext` unset and leave the overview and detail dimensions at SmokePing's defaults.
 4. To use the improved graph typography, adjust `GR` and `JS` at the top of `custom-cont-init.d/10-dark-graphs.sh`, then run it as a root startup hook.
 
 ## Updating or removing the optional graph patch
